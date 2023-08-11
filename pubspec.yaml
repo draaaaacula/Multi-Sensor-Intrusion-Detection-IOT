@@ -1,0 +1,27 @@
+name: home_security_system
+description: Dracula home security system.
+version: 0.6.9
+
+environment:
+  sdk: '>=2.19.4 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cloud_firestore: ^4.8.4
+  firebase_core: ^2.15.0
+  firebase_analytics: ^10.4.4
+  firebase_database: ^10.2.4
+  firebase_auth: ^4.7.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.2
+  
+flutter:
+  assets:
+    - assets/images/
+  uses-material-design: true
+
+app_name: Dracula home security system

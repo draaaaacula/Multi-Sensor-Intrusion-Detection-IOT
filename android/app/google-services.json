@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "166357039852",
+    "firebase_url": "https://smart-home-security-syst-48432-default-rtdb.firebaseio.com",
+    "project_id": "smart-home-security-syst-48432",
+    "storage_bucket": "smart-home-security-syst-48432.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:166357039852:android:78e7f1160c5c76423fc3c9",
+        "android_client_info": {
+          "package_name": "com.dracula.homesecuritysystem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "166357039852-lge1v72ju6n386q346v0vh7p08tgjv7d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvTVh6YMJm-Ebq19Mfib9biuG-vBR292U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "166357039852-lge1v72ju6n386q346v0vh7p08tgjv7d.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "166357039852-1vskj3rrfak4o3qvrqp75vkt6v4ev8mg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.dracula"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:166357039852:android:35bde739c76749443fc3c9",
+        "android_client_info": {
+          "package_name": "com.example.dracula"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "166357039852-lge1v72ju6n386q346v0vh7p08tgjv7d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvTVh6YMJm-Ebq19Mfib9biuG-vBR292U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "166357039852-lge1v72ju6n386q346v0vh7p08tgjv7d.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "166357039852-1vskj3rrfak4o3qvrqp75vkt6v4ev8mg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.dracula"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
