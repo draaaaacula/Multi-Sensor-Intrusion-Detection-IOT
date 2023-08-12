@@ -28,14 +28,14 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 apply plugin: 'com.google.gms.google-services'
 
-plugins {
-  id 'com.android.application'
-
-  // Add the Google services Gradle plugin
-  id 'com.google.gms.google-services'
+repositories {
+    google()
+    mavenCentral()
 }
 
+
 android {
+    namespace "com.example.dracula"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
@@ -61,7 +61,7 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        minSdkVersion=19
+        minSdkVersion=20
     }
 
     buildTypes {
@@ -71,6 +71,7 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+    
 }
 
 flutter {
@@ -85,5 +86,4 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
 }
 
-apply plugin: 'com.google.gms.google-services'
 // END: FlutterFire Configuration
