@@ -1,5 +1,20 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'dart:io' show Platform;
+import 'package:device_info_plus/device_info_plus.dart';
+
+Future<String?> getId() async {
+  var deviceInfo = DeviceInfoPlugin();
+  if (Platform.isIOS) {
+    // import 'dart:io'
+    var iosDeviceInfo = await deviceInfo.iosInfo;
+    return iosDeviceInfo.identifierForVendor; // unique ID on iOS
+  } else if (Platform.isAndroid) {
+    var androidDeviceInfo = await deviceInfo.androidInfo;
+    return androidDeviceInfo.androidId; // unique ID on Android
+  }
+  return null;
+}
 
 class DraculaPage extends StatefulWidget {
   const DraculaPage({Key? key, required this.title}) : super(key: key);
@@ -12,47 +27,78 @@ class DraculaPage extends StatefulWidget {
 }
 
 class _DraculaPageState extends State<DraculaPage> {
-  bool _isBuzzerOn = false;
-  bool _isSmokeOn = false;
-  bool _isMotionOn = false;
-  bool _isLockOn = false;
+  late String? deviceId = '';
+  late bool _isBuzzerOn = false;
+  late bool _isSmokeOn = false;
+  late bool _isMotionOn = false;
+  late bool _isLockOn = false;
+  late String _message = '';
+
+  void updateFirebase(String path, bool value) {
+    if (deviceId == null) {
+      return;
+    }
+    FirebaseDatabase.instance.ref('devices/$deviceId/$path').set(value);
+  }
 
   void _toggleBuzzer() {
+    updateFirebase('buzzer', !_isBuzzerOn);
     setState(() {
       _isBuzzerOn = !_isBuzzerOn;
-      FirebaseDatabase.instance.ref().child('devices/buzzer').set(_isBuzzerOn);
     });
   }
 
   void _toggleSmoke() {
+    updateFirebase('smoke', !_isSmokeOn);
     setState(() {
       _isSmokeOn = !_isSmokeOn;
     });
   }
 
   void _toggleMotion() {
+    updateFirebase('motion', !_isMotionOn);
     setState(() {
       _isMotionOn = !_isMotionOn;
     });
   }
 
   void _toggleLock() {
+    updateFirebase('lock', !_isLockOn);
     setState(() {
       _isLockOn = !_isLockOn;
+    });
+  }
+
+  void firebaseRealtime() {
+    if (deviceId == null) {
+      return;
+    }
+    FirebaseDatabase.instance.ref('devices/$deviceId').onValue.listen((event) {
+      if (event.snapshot.value != null) {
+        final data = event.snapshot.value as Map<dynamic, dynamic>;
+        final value = data[deviceId];
+        if (value != null) {
+          setState(() {
+            _isBuzzerOn = value['buzzer'] ?? false;
+            _isSmokeOn = value['smoke'] ?? false;
+            _isMotionOn = value['motion'] ?? false;
+            _isLockOn = value['lock'] ?? false;
+            _message = value['message'] ?? '';
+          });
+        }
+      }
     });
   }
 
   @override
   void initState() {
     super.initState();
-
-    // Set up listeners for button states
-    FirebaseDatabase.instance.ref().child('devices/buzzer').onValue.listen((event) {
+    getId().then((value) {
       setState(() {
-        _isBuzzerOn = event.snapshot.value as bool;
+        deviceId = value;
       });
     });
-    // Repeat this for other buttons
+    firebaseRealtime();
   }
 
   @override
@@ -163,12 +209,13 @@ class _DraculaPageState extends State<DraculaPage> {
                 Column(
                   children: [
                     IconButton(
-                        icon: Icon(
-                            _isLockOn ? Icons.lock : Icons.lock_open_sharp),
-                        color: _isLockOn ? Colors.tealAccent : Colors.white,
-                        iconSize: size.width * 0.1,
-                        tooltip: 'Lock',
-                        onPressed: _toggleLock),
+                      icon:
+                          Icon(_isLockOn ? Icons.lock : Icons.lock_open_sharp),
+                      color: _isLockOn ? Colors.tealAccent : Colors.white,
+                      iconSize: size.width * 0.1,
+                      tooltip: 'Lock',
+                      onPressed: _toggleLock,
+                    ),
                     Text(
                       'Lock',
                       style: TextStyle(
@@ -177,6 +224,13 @@ class _DraculaPageState extends State<DraculaPage> {
                   ],
                 ),
               ],
+            ),
+            Text(
+              _message,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+              ),
             ),
           ],
         ),
