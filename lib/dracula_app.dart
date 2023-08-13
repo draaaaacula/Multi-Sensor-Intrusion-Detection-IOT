@@ -1,4 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'dracula_page.dart';
 import 'splash_screen.dart';
@@ -9,19 +8,19 @@ class DraculaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Home Security System',
       theme: ThemeData(
-        primarySwatch: Colors.red,
+        primarySwatch: Colors.blue,
       ),
-      home: FutureBuilder(
-        future: Firebase.initializeApp(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return const DraculaPage(title: 'Home Security System');
-          }
-          return const SplashScreen();
-        },
-      ),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const SplashScreen(
+              title: 'Dracula Smart Security',
+            ),
+        '/home': (context) =>
+            const DraculaPage(title: 'Dracula Smart Security'),
+      },
     );
   }
 }

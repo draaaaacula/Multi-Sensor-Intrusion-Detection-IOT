@@ -30,8 +30,10 @@ class _DraculaPageState extends State<DraculaPage> {
   late String? deviceId = '';
   late bool _isBuzzerOn = false;
   late bool _isSmokeOn = false;
-  late bool _isMotionOn = false;
-  late bool _isLockOn = false;
+  late bool _isFireOn = false;
+  late bool _isPIROn = false;
+  late bool _isLDROn = false;
+  late bool _isCamOn = false;
   late String _message = '';
 
   void updateFirebase(String path, bool value) {
@@ -55,17 +57,31 @@ class _DraculaPageState extends State<DraculaPage> {
     });
   }
 
-  void _toggleMotion() {
-    updateFirebase('motion', !_isMotionOn);
+  void _toggleFire() {
+    updateFirebase('fire', !_isFireOn);
     setState(() {
-      _isMotionOn = !_isMotionOn;
+      _isFireOn = !_isFireOn;
     });
   }
 
-  void _toggleLock() {
-    updateFirebase('lock', !_isLockOn);
+  void _togglePIR() {
+    updateFirebase('pir', !_isPIROn);
     setState(() {
-      _isLockOn = !_isLockOn;
+      _isPIROn = !_isPIROn;
+    });
+  }
+
+  void _toggleLDR() {
+    updateFirebase('ldr', !_isLDROn);
+    setState(() {
+      _isLDROn = !_isLDROn;
+    });
+  }
+
+  void _toggleCAM() {
+    updateFirebase('cam', !_isCamOn);
+    setState(() {
+      _isCamOn = !_isCamOn;
     });
   }
 
@@ -81,8 +97,10 @@ class _DraculaPageState extends State<DraculaPage> {
           setState(() {
             _isBuzzerOn = value['buzzer'] ?? false;
             _isSmokeOn = value['smoke'] ?? false;
-            _isMotionOn = value['motion'] ?? false;
-            _isLockOn = value['lock'] ?? false;
+            _isFireOn = value['fire'] ?? false;
+            _isPIROn = value['pir'] ?? false;
+            _isLDROn = value['ldr'] ?? false;
+            _isCamOn = value['cam'] ?? false;
             _message = value['message'] ?? '';
           });
         }
@@ -106,9 +124,8 @@ class _DraculaPageState extends State<DraculaPage> {
     var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-        foregroundColor: const Color.fromARGB(255, 255, 196, 0),
+        foregroundColor: const Color.fromARGB(255, 255, 0, 0),
         title: Row(
           children: [
             Image.asset(
@@ -118,9 +135,18 @@ class _DraculaPageState extends State<DraculaPage> {
             const SizedBox(width: 25),
             Text(
               widget.title,
-              style: const TextStyle(fontSize: 20),
+              style: const TextStyle(fontSize: 25),
             ),
             const Spacer(),
+            IconButton(
+              icon: Icon(
+                _isCamOn ? Icons.camera : Icons.camera_outlined,
+              ),
+              color: _isCamOn
+                  ? Colors.redAccent.shade700
+                  : Colors.redAccent.shade700,
+              onPressed: _toggleCAM,
+            ),
           ],
         ),
       ),
@@ -187,21 +213,19 @@ class _DraculaPageState extends State<DraculaPage> {
                 Column(
                   children: [
                     IconButton(
-                        icon: Icon(_isMotionOn
-                            ? Icons.sensors
-                            : Icons.sensors_off_sharp),
-                        color: _isMotionOn
-                            ? Colors.lightGreenAccent
-                            : Colors.white,
+                        icon: Icon(_isFireOn
+                            ? Icons.fire_extinguisher
+                            : Icons.fire_extinguisher),
+                        color:
+                            _isFireOn ? Colors.lightGreenAccent : Colors.white,
                         iconSize: size.width * 0.1,
-                        tooltip: 'Motion',
-                        onPressed: _toggleMotion),
+                        tooltip: 'Fire',
+                        onPressed: _toggleFire),
                     Text(
-                      'Motion',
+                      'Fire',
                       style: TextStyle(
-                        color: _isMotionOn
-                            ? Colors.lightGreenAccent
-                            : Colors.white,
+                        color:
+                            _isFireOn ? Colors.lightGreenAccent : Colors.white,
                       ),
                     ),
                   ],
@@ -209,19 +233,38 @@ class _DraculaPageState extends State<DraculaPage> {
                 Column(
                   children: [
                     IconButton(
-                      icon:
-                          Icon(_isLockOn ? Icons.lock : Icons.lock_open_sharp),
-                      color: _isLockOn ? Colors.tealAccent : Colors.white,
+                      icon: Icon(_isPIROn
+                          ? Icons.motion_photos_on
+                          : Icons.motion_photos_off),
+                      color: _isPIROn ? Colors.tealAccent : Colors.white,
                       iconSize: size.width * 0.1,
-                      tooltip: 'Lock',
-                      onPressed: _toggleLock,
+                      tooltip: 'PIR',
+                      onPressed: _togglePIR,
                     ),
                     Text(
-                      'Lock',
+                      'PIR',
                       style: TextStyle(
-                          color: _isLockOn ? Colors.tealAccent : Colors.white),
+                          color: _isPIROn ? Colors.tealAccent : Colors.white),
                     ),
                   ],
+                ),
+              ],
+            ),
+            Column(
+              children: [
+                IconButton(
+                  icon: Icon(_isLDROn
+                      ? Icons.settings_display_rounded
+                      : Icons.settings_display_outlined),
+                  color: _isLDROn ? Colors.purple : Colors.white,
+                  iconSize: size.width * 0.1,
+                  tooltip: 'LDR',
+                  onPressed: _toggleLDR,
+                ),
+                Text(
+                  'LDR',
+                  style:
+                      TextStyle(color: _isLDROn ? Colors.purple : Colors.white),
                 ),
               ],
             ),

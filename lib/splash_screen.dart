@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dracula_page.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({Key? key, required String title}) : super(key: key);
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -38,7 +38,8 @@ class _SplashScreenState extends State<SplashScreen>
       context,
       PageRouteBuilder(
         transitionDuration: const Duration(seconds: 1),
-        pageBuilder: (_, __, ___) => const DraculaPage(title: 'DHSS'),
+        pageBuilder: (_, __, ___) =>
+            const DraculaPage(title: 'Dracula Smart Security'),
         transitionsBuilder: (_, animation, __, child) {
           return SlideTransition(
             position: Tween<Offset>(
