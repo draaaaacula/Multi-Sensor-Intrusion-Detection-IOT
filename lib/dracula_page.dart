@@ -27,7 +27,6 @@ class DraculaPage extends StatefulWidget {
 }
 
 class _DraculaPageState extends State<DraculaPage> {
-  late String? deviceId = '';
   late bool _isBuzzerOn = false;
   late bool _isSmokeOn = false;
   late bool _isFireOn = false;
@@ -83,14 +82,10 @@ class _DraculaPageState extends State<DraculaPage> {
   }
 
   void firebaseRealtime() {
-    if (deviceId == null) {
-      return;
-    }
-    FirebaseDatabase.instance.ref('devices/$deviceId').onValue.listen((event) {
+    FirebaseDatabase.instance.ref('devices').onValue.listen((event) {
       if (event.snapshot.value != null) {
-        final data = event.snapshot.value as Map<dynamic, dynamic>;
-        final value = data[deviceId];
-        if (value != null) {
+        final value = event.snapshot.value as Map<dynamic, dynamic>;
+        if (value.isNotEmpty) {
           setState(() {
             _isBuzzerOn = value['buzzer'] ?? false;
             _isSmokeOn = value['gas'] ?? false;

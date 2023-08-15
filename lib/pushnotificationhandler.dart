@@ -14,6 +14,7 @@ Future<String?> getDeviceName() async {
     var iosInfo = await deviceInfo.iosInfo;
     return iosInfo.utsname.machine;
   }
+  return null;
 }
 
 class PushNotificationHandler extends StatefulWidget {
@@ -23,6 +24,7 @@ class PushNotificationHandler extends StatefulWidget {
   State<PushNotificationHandler> createState() =>
       PushNotificationHandlerState();
 }
+
 class PushNotificationHandlerState extends State<PushNotificationHandler> {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   void _checkPermission() async {
