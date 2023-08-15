@@ -1,20 +1,20 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'dart:io' show Platform;
-import 'package:device_info_plus/device_info_plus.dart';
+// import 'dart:io' show Platform;
+// import 'package:device_info_plus/device_info_plus.dart';
 
-Future<String?> getId() async {
-  var deviceInfo = DeviceInfoPlugin();
-  if (Platform.isIOS) {
-    // import 'dart:io'
-    var iosDeviceInfo = await deviceInfo.iosInfo;
-    return iosDeviceInfo.identifierForVendor; // unique ID on iOS
-  } else if (Platform.isAndroid) {
-    var androidDeviceInfo = await deviceInfo.androidInfo;
-    return androidDeviceInfo.androidId; // unique ID on Android
-  }
-  return null;
-}
+// Future<String?> getId() async {
+//   var deviceInfo = DeviceInfoPlugin();
+//   if (Platform.isIOS) {
+//     // import 'dart:io'
+//     var iosDeviceInfo = await deviceInfo.iosInfo;
+//     return iosDeviceInfo.identifierForVendor; // unique ID on iOS
+//   } else if (Platform.isAndroid) {
+//     var androidDeviceInfo = await deviceInfo.androidInfo;
+//     return androidDeviceInfo.androidId; // unique ID on Android
+//   }
+//   return null;
+// }
 
 class DraculaPage extends StatefulWidget {
   const DraculaPage({Key? key, required this.title}) : super(key: key);
@@ -37,10 +37,7 @@ class _DraculaPageState extends State<DraculaPage> {
   late String _message = '';
 
   void updateFirebase(String path, bool value) {
-    if (deviceId == null) {
-      return;
-    }
-    FirebaseDatabase.instance.ref('devices/$deviceId/$path').set(value);
+    FirebaseDatabase.instance.ref('devices/$path').set(value);
   }
 
   void _toggleBuzzer() {
@@ -51,14 +48,14 @@ class _DraculaPageState extends State<DraculaPage> {
   }
 
   void _toggleSmoke() {
-    updateFirebase('smoke', !_isSmokeOn);
+    updateFirebase('gas', !_isSmokeOn);
     setState(() {
       _isSmokeOn = !_isSmokeOn;
     });
   }
 
   void _toggleFire() {
-    updateFirebase('fire', !_isFireOn);
+    updateFirebase('flame', !_isFireOn);
     setState(() {
       _isFireOn = !_isFireOn;
     });
@@ -96,8 +93,8 @@ class _DraculaPageState extends State<DraculaPage> {
         if (value != null) {
           setState(() {
             _isBuzzerOn = value['buzzer'] ?? false;
-            _isSmokeOn = value['smoke'] ?? false;
-            _isFireOn = value['fire'] ?? false;
+            _isSmokeOn = value['gas'] ?? false;
+            _isFireOn = value['flame'] ?? false;
             _isPIROn = value['pir'] ?? false;
             _isLDROn = value['ldr'] ?? false;
             _isCamOn = value['cam'] ?? false;
@@ -111,11 +108,11 @@ class _DraculaPageState extends State<DraculaPage> {
   @override
   void initState() {
     super.initState();
-    getId().then((value) {
-      setState(() {
-        deviceId = value;
-      });
-    });
+    // getId().then((value) {
+    //   setState(() {
+    //     deviceId = value;
+    //   });
+    // });
     firebaseRealtime();
   }
 
@@ -194,10 +191,10 @@ class _DraculaPageState extends State<DraculaPage> {
                             : Icons.smoke_free),
                         color: _isSmokeOn ? Colors.red.shade700 : Colors.white,
                         iconSize: size.width * 0.1,
-                        tooltip: 'Smoke',
+                        tooltip: 'Gas',
                         onPressed: _toggleSmoke),
                     Text(
-                      'Smoke',
+                      'Gas',
                       style: TextStyle(
                         color: _isSmokeOn ? Colors.red.shade700 : Colors.white,
                       ),
@@ -219,10 +216,10 @@ class _DraculaPageState extends State<DraculaPage> {
                         color:
                             _isFireOn ? Colors.lightGreenAccent : Colors.white,
                         iconSize: size.width * 0.1,
-                        tooltip: 'Fire',
+                        tooltip: 'Flame',
                         onPressed: _toggleFire),
                     Text(
-                      'Fire',
+                      'Flame',
                       style: TextStyle(
                         color:
                             _isFireOn ? Colors.lightGreenAccent : Colors.white,
@@ -233,41 +230,24 @@ class _DraculaPageState extends State<DraculaPage> {
                 Column(
                   children: [
                     IconButton(
-                      icon: Icon(_isPIROn
-                          ? Icons.motion_photos_on
-                          : Icons.motion_photos_off),
-                      color: _isPIROn ? Colors.tealAccent : Colors.white,
+                      icon: Icon(_isLDROn
+                          ? Icons.settings_display_rounded
+                          : Icons.settings_display_outlined),
+                      color: _isLDROn ? Colors.purple : Colors.white,
                       iconSize: size.width * 0.1,
-                      tooltip: 'PIR',
-                      onPressed: _togglePIR,
+                      tooltip: 'LDR',
+                      onPressed: _toggleLDR,
                     ),
                     Text(
-                      'PIR',
+                      'LDR',
                       style: TextStyle(
-                          color: _isPIROn ? Colors.tealAccent : Colors.white),
+                          color: _isLDROn ? Colors.purple : Colors.white),
                     ),
                   ],
                 ),
               ],
             ),
-            Column(
-              children: [
-                IconButton(
-                  icon: Icon(_isLDROn
-                      ? Icons.settings_display_rounded
-                      : Icons.settings_display_outlined),
-                  color: _isLDROn ? Colors.purple : Colors.white,
-                  iconSize: size.width * 0.1,
-                  tooltip: 'LDR',
-                  onPressed: _toggleLDR,
-                ),
-                Text(
-                  'LDR',
-                  style:
-                      TextStyle(color: _isLDROn ? Colors.purple : Colors.white),
-                ),
-              ],
-            ),
+
             Text(
               _message,
               style: const TextStyle(

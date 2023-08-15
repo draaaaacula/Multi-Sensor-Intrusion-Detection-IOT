@@ -1,6 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:home_security_system/dracula_app.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:io' show Platform;
+import 'package:device_info_plus/device_info_plus.dart';
+
+Future<String?> getDeviceName() async {
+  var deviceInfo = DeviceInfoPlugin();
+  if (Platform.isAndroid) {
+    var androidInfo = await deviceInfo.androidInfo;
+    return androidInfo.model;
+  } else if (Platform.isIOS) {
+    var iosInfo = await deviceInfo.iosInfo;
+    return iosInfo.utsname.machine;
+  }
+}
 
 class PushNotificationHandler extends StatefulWidget {
   const PushNotificationHandler({super.key});
@@ -9,10 +23,8 @@ class PushNotificationHandler extends StatefulWidget {
   State<PushNotificationHandler> createState() =>
       PushNotificationHandlerState();
 }
-
 class PushNotificationHandlerState extends State<PushNotificationHandler> {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-
   void _checkPermission() async {
     if (await _firebaseMessaging.isSupported()) {
       _firebaseMessaging.requestPermission(
@@ -23,6 +35,11 @@ class PushNotificationHandlerState extends State<PushNotificationHandler> {
         provisional: false, // For iOS only
       );
     }
+    var name = await getDeviceName();
+    var token = await _firebaseMessaging.getToken();
+    FirebaseFirestore.instance.collection('devices').doc(name).set({
+      'token': token,
+    });
   }
 
   void _handleOnMessage() {
