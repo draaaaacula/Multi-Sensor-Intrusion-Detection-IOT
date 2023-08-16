@@ -16,10 +16,10 @@ class DraculaApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const SplashScreen(
-              title: 'Dracula Smart Security',
+              title: 'Dracula Security Services',
             ),
         '/home': (context) =>
-            const DraculaPage(title: 'Dracula Smart Security'),
+            const DraculaPage(title: 'Dracula Security Services'),
       },
     );
   }

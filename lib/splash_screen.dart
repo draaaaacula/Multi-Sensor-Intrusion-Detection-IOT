@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen>
       PageRouteBuilder(
         transitionDuration: const Duration(seconds: 1),
         pageBuilder: (_, __, ___) =>
-            const DraculaPage(title: 'Dracula Smart Security'),
+            const DraculaPage(title: 'Dracula Security Services'),
         transitionsBuilder: (_, animation, __, child) {
           return SlideTransition(
             position: Tween<Offset>(
@@ -64,10 +64,10 @@ class _SplashScreenState extends State<SplashScreen>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              RotationTransition(
-                turns: _animation,
+              FadeTransition(
+                opacity: _animation,
                 child: Image.asset(
-                  'assets/images/laor.png',
+                  'assets/images/DSS.png',
                   height: 200,
                 ),
               ),

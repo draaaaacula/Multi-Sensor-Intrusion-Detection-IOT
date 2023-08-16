@@ -117,17 +117,17 @@ class _DraculaPageState extends State<DraculaPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-        foregroundColor: const Color.fromARGB(255, 255, 0, 0),
+        foregroundColor: const Color.fromARGB(255, 239, 190, 40),
         title: Row(
           children: [
             Image.asset(
-              'assets/images/laor.png',
+              'assets/images/DSS.png',
               height: 35,
             ),
             const SizedBox(width: 25),
             Text(
               widget.title,
-              style: const TextStyle(fontSize: 25),
+              style: const TextStyle(fontSize: 22),
             ),
             const Spacer(),
             IconButton(
@@ -135,8 +135,8 @@ class _DraculaPageState extends State<DraculaPage> {
                 _isCamOn ? Icons.camera : Icons.camera_outlined,
               ),
               color: _isCamOn
-                  ? Colors.redAccent.shade700
-                  : Colors.redAccent.shade700,
+                  ? const Color.fromARGB(255, 239, 190, 40)
+                  : const Color.fromARGB(255, 239, 189, 40),
               onPressed: _toggleCAM,
             ),
           ],
@@ -146,15 +146,16 @@ class _DraculaPageState extends State<DraculaPage> {
         decoration: const BoxDecoration(
           color: Color(0xFF000000),
           image: DecorationImage(
-            image: AssetImage("assets/images/316867.jpg"),
+            image: AssetImage("assets/images/217024.png"),
             fit: BoxFit.cover,
+            opacity: 50,
           ),
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Column(
                   children: [
@@ -165,7 +166,6 @@ class _DraculaPageState extends State<DraculaPage> {
                       color:
                           _isBuzzerOn ? Colors.yellow.shade700 : Colors.white,
                       iconSize: size.width * 0.1,
-                      tooltip: 'Buzzer',
                       onPressed: _toggleBuzzer,
                     ),
                     Text(
@@ -186,7 +186,6 @@ class _DraculaPageState extends State<DraculaPage> {
                             : Icons.smoke_free),
                         color: _isSmokeOn ? Colors.red.shade700 : Colors.white,
                         iconSize: size.width * 0.1,
-                        tooltip: 'Gas',
                         onPressed: _toggleSmoke),
                     Text(
                       'Gas',
@@ -200,7 +199,7 @@ class _DraculaPageState extends State<DraculaPage> {
             ),
             // Motion button
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Column(
                   children: [
@@ -211,7 +210,6 @@ class _DraculaPageState extends State<DraculaPage> {
                         color:
                             _isFireOn ? Colors.lightGreenAccent : Colors.white,
                         iconSize: size.width * 0.1,
-                        tooltip: 'Flame',
                         onPressed: _toggleFire),
                     Text(
                       'Flame',
@@ -228,9 +226,8 @@ class _DraculaPageState extends State<DraculaPage> {
                       icon: Icon(_isLDROn
                           ? Icons.settings_display_rounded
                           : Icons.settings_display_outlined),
-                      color: _isLDROn ? Colors.purple : Colors.white,
+                      color: _isLDROn ? Colors.deepPurple : Colors.white,
                       iconSize: size.width * 0.1,
-                      tooltip: 'LDR',
                       onPressed: _toggleLDR,
                     ),
                     Text(
@@ -242,11 +239,32 @@ class _DraculaPageState extends State<DraculaPage> {
                 ),
               ],
             ),
-
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                  children: [
+                    IconButton(
+                      icon: Icon(_isPIROn
+                          ? Icons.motion_photos_on
+                          : Icons.motion_photos_off),
+                      color: _isPIROn ? Colors.cyanAccent : Colors.white,
+                      iconSize: size.width * 0.1,
+                      onPressed: _togglePIR,
+                    ),
+                    Text(
+                      'PIR',
+                      style: TextStyle(
+                          color: _isPIROn ? Colors.cyan : Colors.white),
+                    ),
+                  ],
+                ),
+              ],
+            ),
             Text(
               _message,
               style: const TextStyle(
-                color: Colors.white,
+                color: Color.fromARGB(255, 239, 190, 40),
                 fontSize: 20,
               ),
             ),
