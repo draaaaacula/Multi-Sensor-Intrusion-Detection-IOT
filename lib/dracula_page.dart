@@ -1,4 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'dart:io' show Platform;
 // import 'package:device_info_plus/device_info_plus.dart';
@@ -27,57 +28,57 @@ class DraculaPage extends StatefulWidget {
 }
 
 class _DraculaPageState extends State<DraculaPage> {
-  late bool _isBuzzerOn = false;
-  late bool _isSmokeOn = false;
-  late bool _isFireOn = false;
-  late bool _isPIROn = false;
-  late bool _isLDROn = false;
-  late bool _isCamOn = false;
+  late bool _isDoorLockOn = false;
+  late bool _isGasOn = false;
+  late bool _isFlameOn = false;
+  late bool _isExhaustOn = false;
+  late bool _isDoorLightOn = false;
+  late bool _isCurrentOn = false;
   late String _message = '';
 
   void updateFirebase(String path, bool value) {
     FirebaseDatabase.instance.ref('devices/$path').set(value);
   }
 
-  void _toggleBuzzer() {
-    updateFirebase('buzzer', !_isBuzzerOn);
+  void _toggleDoorLock() {
+    updateFirebase('Door Lock', !_isDoorLockOn);
     setState(() {
-      _isBuzzerOn = !_isBuzzerOn;
+      _isDoorLockOn = !_isDoorLockOn;
     });
   }
 
-  void _toggleSmoke() {
-    updateFirebase('gas', !_isSmokeOn);
+  void _toggleGas() {
+    updateFirebase('Gas', !_isGasOn);
     setState(() {
-      _isSmokeOn = !_isSmokeOn;
+      _isGasOn = !_isGasOn;
     });
   }
 
-  void _toggleFire() {
-    updateFirebase('flame', !_isFireOn);
+  void _toggleFlame() {
+    updateFirebase('Flame', !_isFlameOn);
     setState(() {
-      _isFireOn = !_isFireOn;
+      _isFlameOn = !_isFlameOn;
     });
   }
 
-  void _togglePIR() {
-    updateFirebase('pir', !_isPIROn);
+  void _toggleExhaust() {
+    updateFirebase('Exhaust', !_isExhaustOn);
     setState(() {
-      _isPIROn = !_isPIROn;
+      _isExhaustOn = !_isExhaustOn;
     });
   }
 
-  void _toggleLDR() {
-    updateFirebase('ldr', !_isLDROn);
+  void _toggleDoorLight() {
+    updateFirebase('Door Light', !_isDoorLightOn);
     setState(() {
-      _isLDROn = !_isLDROn;
+      _isDoorLightOn = !_isDoorLightOn;
     });
   }
 
-  void _toggleCAM() {
-    updateFirebase('cam', !_isCamOn);
+  void _toggleCurrent() {
+    updateFirebase('Current', !_isCurrentOn);
     setState(() {
-      _isCamOn = !_isCamOn;
+      _isCurrentOn = !_isCurrentOn;
     });
   }
 
@@ -87,13 +88,13 @@ class _DraculaPageState extends State<DraculaPage> {
         final value = event.snapshot.value as Map<dynamic, dynamic>;
         if (value.isNotEmpty) {
           setState(() {
-            _isBuzzerOn = value['buzzer'] ?? false;
-            _isSmokeOn = value['gas'] ?? false;
-            _isFireOn = value['flame'] ?? false;
-            _isPIROn = value['pir'] ?? false;
-            _isLDROn = value['ldr'] ?? false;
-            _isCamOn = value['cam'] ?? false;
-            _message = value['message'] ?? '';
+            _isDoorLockOn = value['Door Lock'] ?? false;
+            _isGasOn = value['Gas'] ?? false;
+            _isFlameOn = value['Flame'] ?? false;
+            _isExhaustOn = value['Exhaust'] ?? false;
+            _isDoorLightOn = value['Door Light'] ?? false;
+            _isCurrentOn = value['Current'] ?? false;
+            _message = value['Message'] ?? '';
           });
         }
       }
@@ -116,37 +117,27 @@ class _DraculaPageState extends State<DraculaPage> {
     var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-        foregroundColor: const Color.fromARGB(255, 239, 190, 40),
+        backgroundColor: const Color.fromARGB(255, 111, 24, 224),
+        foregroundColor: const Color.fromARGB(255, 255, 255, 255),
         title: Row(
           children: [
             Image.asset(
               'assets/images/DSS.png',
-              height: 35,
+              height: 45,
             ),
             const SizedBox(width: 25),
             Text(
               widget.title,
-              style: const TextStyle(fontSize: 22),
-            ),
-            const Spacer(),
-            IconButton(
-              icon: Icon(
-                _isCamOn ? Icons.camera : Icons.camera_outlined,
-              ),
-              color: _isCamOn
-                  ? const Color.fromARGB(255, 239, 190, 40)
-                  : const Color.fromARGB(255, 239, 189, 40),
-              onPressed: _toggleCAM,
+              style: const TextStyle(fontSize: 25),
             ),
           ],
         ),
       ),
       body: Container(
         decoration: const BoxDecoration(
-          color: Color(0xFF000000),
+          color: Color.fromARGB(255, 255, 255, 255),
           image: DecorationImage(
-            image: AssetImage("assets/images/217024.png"),
+            image: AssetImage("assets/images/blue.jpg"),
             fit: BoxFit.cover,
             opacity: 50,
           ),
@@ -159,20 +150,33 @@ class _DraculaPageState extends State<DraculaPage> {
               children: [
                 Column(
                   children: [
-                    IconButton(
-                      icon: Icon(_isBuzzerOn
-                          ? Icons.notifications_active
-                          : Icons.notifications_off),
-                      color:
-                          _isBuzzerOn ? Colors.yellow.shade700 : Colors.white,
-                      iconSize: size.width * 0.1,
-                      onPressed: _toggleBuzzer,
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: Image.asset('assets/images/pnlock.png'),
+                          iconSize: size.width * 0.2,
+                          onPressed: () {},
+                        ),
+                        RotatedBox(
+                          quarterTurns: -1,
+                          child: Transform.scale(
+                            scale: 1.5,
+                            child: CupertinoSwitch(
+                              value: _isDoorLockOn,
+                              onChanged: (_) {
+                                _toggleDoorLock();
+                              },
+                              activeColor: Colors.tealAccent,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     Text(
-                      'Buzzer',
+                      'Door Lock',
                       style: TextStyle(
-                        color:
-                            _isBuzzerOn ? Colors.yellow.shade700 : Colors.white,
+                        fontSize: 20,
+                        color: _isDoorLockOn ? Colors.tealAccent : Colors.white,
                       ),
                     ),
                   ],
@@ -180,17 +184,32 @@ class _DraculaPageState extends State<DraculaPage> {
                 // Smoke button
                 Column(
                   children: [
-                    IconButton(
-                        icon: Icon(_isSmokeOn
-                            ? Icons.smoking_rooms
-                            : Icons.smoke_free),
-                        color: _isSmokeOn ? Colors.red.shade700 : Colors.white,
-                        iconSize: size.width * 0.1,
-                        onPressed: _toggleSmoke),
+                    Row(
+                      children: [
+                        IconButton(
+                            icon: Image.asset('assets/images/pngas.png'),
+                            iconSize: size.width * 0.2,
+                            onPressed: () {}),
+                        RotatedBox(
+                          quarterTurns: -1,
+                          child: Transform.scale(
+                            scale: 1.5,
+                            child: CupertinoSwitch(
+                              value: _isGasOn,
+                              onChanged: (_) {
+                                _toggleGas();
+                              },
+                              activeColor: Colors.limeAccent,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     Text(
                       'Gas',
                       style: TextStyle(
-                        color: _isSmokeOn ? Colors.red.shade700 : Colors.white,
+                        fontSize: 20,
+                        color: _isGasOn ? Colors.limeAccent : Colors.white,
                       ),
                     ),
                   ],
@@ -203,68 +222,152 @@ class _DraculaPageState extends State<DraculaPage> {
               children: [
                 Column(
                   children: [
-                    IconButton(
-                        icon: Icon(_isFireOn
-                            ? Icons.fire_extinguisher
-                            : Icons.fire_extinguisher),
-                        color:
-                            _isFireOn ? Colors.lightGreenAccent : Colors.white,
-                        iconSize: size.width * 0.1,
-                        onPressed: _toggleFire),
+                    Row(
+                      children: [
+                        IconButton(
+                            icon: Image.asset('assets/images/pnfire.png'),
+                            iconSize: size.width * 0.2,
+                            onPressed: () {}),
+                        RotatedBox(
+                          quarterTurns: -1,
+                          child: Transform.scale(
+                            scale: 1.5,
+                            child: CupertinoSwitch(
+                              value: _isFlameOn,
+                              onChanged: (_) {
+                                _toggleFlame();
+                              },
+                              activeColor: Colors.red,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     Text(
                       'Flame',
                       style: TextStyle(
-                        color:
-                            _isFireOn ? Colors.lightGreenAccent : Colors.white,
+                        fontSize: 20,
+                        color: _isFlameOn ? Colors.red : Colors.white,
                       ),
                     ),
                   ],
                 ),
                 Column(
                   children: [
-                    IconButton(
-                      icon: Icon(_isLDROn
-                          ? Icons.settings_display_rounded
-                          : Icons.settings_display_outlined),
-                      color: _isLDROn ? Colors.deepPurple : Colors.white,
-                      iconSize: size.width * 0.1,
-                      onPressed: _toggleLDR,
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: Image.asset('assets/images/pnlight.png'),
+                          iconSize: size.width * 0.2,
+                          onPressed: () {},
+                        ),
+                        RotatedBox(
+                          quarterTurns: -1,
+                          child: Transform.scale(
+                            scale: 2.2,
+                            child: Switch(
+                              activeThumbImage:
+                                  const AssetImage('assets/images/sun.png'),
+                              inactiveThumbImage:
+                                  const AssetImage('assets/images/moon.png'),
+                              value: _isDoorLightOn,
+                              onChanged: (_) {
+                                _toggleDoorLight();
+                              },
+                              activeColor: Colors.cyanAccent,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     Text(
-                      'LDR',
+                      'Door Light',
                       style: TextStyle(
-                          color: _isLDROn ? Colors.purple : Colors.white),
+                          fontSize: 20,
+                          color: _isDoorLightOn
+                              ? Colors.cyanAccent
+                              : Colors.white),
                     ),
                   ],
                 ),
               ],
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Column(
                   children: [
-                    IconButton(
-                      icon: Icon(_isPIROn
-                          ? Icons.motion_photos_on
-                          : Icons.motion_photos_off),
-                      color: _isPIROn ? Colors.cyanAccent : Colors.white,
-                      iconSize: size.width * 0.1,
-                      onPressed: _togglePIR,
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: Image.asset('assets/images/pex.png'),
+                          iconSize: size.width * 0.2,
+                          onPressed: () {},
+                        ),
+                        RotatedBox(
+                          quarterTurns: -1,
+                          child: Transform.scale(
+                            scale: 1.5,
+                            child: CupertinoSwitch(
+                              value: _isExhaustOn,
+                              onChanged: (_) {
+                                _toggleExhaust();
+                              },
+                              activeColor: Colors.purple,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     Text(
-                      'PIR',
+                      'Exhaust',
                       style: TextStyle(
-                          color: _isPIROn ? Colors.cyan : Colors.white),
+                          fontSize: 20,
+                          color: _isExhaustOn ? Colors.purple : Colors.white),
                     ),
                   ],
                 ),
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: Image.asset('assets/images/pncurrent.png'),
+                          color:
+                              _isCurrentOn ? Colors.cyanAccent : Colors.white,
+                          iconSize: size.width * 0.2,
+                          onPressed: () {},
+                        ),
+                        RotatedBox(
+                          quarterTurns: -1,
+                          child: Transform.scale(
+                            scale: 1.5,
+                            child: CupertinoSwitch(
+                              value: _isCurrentOn,
+                              onChanged: (_) {
+                                _toggleCurrent();
+                              },
+                              activeColor: Colors.deepOrange,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      'Current',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color:
+                              _isCurrentOn ? Colors.deepOrange : Colors.white),
+                    ),
+                  ],
+                )
               ],
             ),
             Text(
               _message,
               style: const TextStyle(
-                color: Color.fromARGB(255, 239, 190, 40),
+                color: Color.fromARGB(255, 0, 0, 0),
                 fontSize: 20,
               ),
             ),

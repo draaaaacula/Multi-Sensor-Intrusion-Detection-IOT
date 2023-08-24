@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "166357039852-op178qmjhrfpliv6ogp2ng6timaretrt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dracula.homesecuritysystem",
+            "certificate_hash": "33edf76729db60945eb918565cfa111fdda57aa8"
+          }
+        },
+        {
           "client_id": "166357039852-lge1v72ju6n386q346v0vh7p08tgjv7d.apps.googleusercontent.com",
           "client_type": 3
         }

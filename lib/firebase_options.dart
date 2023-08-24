@@ -56,7 +56,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAvTVh6YMJm-Ebq19Mfib9biuG-vBR292U',
-    appId: '1:166357039852:android:35bde739c76749443fc3c9',
+    appId: '1:166357039852:android:78e7f1160c5c76423fc3c9',
     messagingSenderId: '166357039852',
     projectId: 'smart-home-security-syst-48432',
     databaseURL: 'https://smart-home-security-syst-48432-default-rtdb.firebaseio.com',
@@ -70,6 +70,7 @@ class DefaultFirebaseOptions {
     projectId: 'smart-home-security-syst-48432',
     databaseURL: 'https://smart-home-security-syst-48432-default-rtdb.firebaseio.com',
     storageBucket: 'smart-home-security-syst-48432.appspot.com',
+    androidClientId: '166357039852-op178qmjhrfpliv6ogp2ng6timaretrt.apps.googleusercontent.com',
     iosClientId: '166357039852-1vskj3rrfak4o3qvrqp75vkt6v4ev8mg.apps.googleusercontent.com',
     iosBundleId: 'com.example.dracula',
   );
@@ -81,6 +82,7 @@ class DefaultFirebaseOptions {
     projectId: 'smart-home-security-syst-48432',
     databaseURL: 'https://smart-home-security-syst-48432-default-rtdb.firebaseio.com',
     storageBucket: 'smart-home-security-syst-48432.appspot.com',
+    androidClientId: '166357039852-op178qmjhrfpliv6ogp2ng6timaretrt.apps.googleusercontent.com',
     iosClientId: '166357039852-1vskj3rrfak4o3qvrqp75vkt6v4ev8mg.apps.googleusercontent.com',
     iosBundleId: 'com.example.dracula',
   );

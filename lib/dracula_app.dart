@@ -8,7 +8,6 @@ class DraculaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       title: 'Home Security System',
       theme: ThemeData(
         primarySwatch: Colors.blue,
