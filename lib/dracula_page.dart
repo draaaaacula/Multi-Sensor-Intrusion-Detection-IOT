@@ -1,21 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-// import 'dart:io' show Platform;
-// import 'package:device_info_plus/device_info_plus.dart';
-
-// Future<String?> getId() async {
-//   var deviceInfo = DeviceInfoPlugin();
-//   if (Platform.isIOS) {
-//     // import 'dart:io'
-//     var iosDeviceInfo = await deviceInfo.iosInfo;
-//     return iosDeviceInfo.identifierForVendor; // unique ID on iOS
-//   } else if (Platform.isAndroid) {
-//     var androidDeviceInfo = await deviceInfo.androidInfo;
-//     return androidDeviceInfo.androidId; // unique ID on Android
-//   }
-//   return null;
-// }
 
 class DraculaPage extends StatefulWidget {
   const DraculaPage({Key? key, required this.title}) : super(key: key);
@@ -45,42 +30,42 @@ class _DraculaPageState extends State<DraculaPage> {
     setState(() {
       _isDoorLockOn = !_isDoorLockOn;
     });
-  }
+  } // Doorlock
 
   void _toggleGas() {
     updateFirebase('Gas', !_isGasOn);
     setState(() {
       _isGasOn = !_isGasOn;
     });
-  }
+  } // Gas
 
   void _toggleFlame() {
     updateFirebase('Flame', !_isFlameOn);
     setState(() {
       _isFlameOn = !_isFlameOn;
     });
-  }
+  } // Flame
 
   void _toggleExhaust() {
     updateFirebase('Exhaust', !_isExhaustOn);
     setState(() {
       _isExhaustOn = !_isExhaustOn;
     });
-  }
+  } // Exhaust
 
   void _toggleDoorLight() {
     updateFirebase('Door Light', !_isDoorLightOn);
     setState(() {
       _isDoorLightOn = !_isDoorLightOn;
     });
-  }
+  } // Doorlight
 
   void _toggleCurrent() {
     updateFirebase('Current', !_isCurrentOn);
     setState(() {
       _isCurrentOn = !_isCurrentOn;
     });
-  }
+  } // Current
 
   void firebaseRealtime() {
     FirebaseDatabase.instance.ref('devices').onValue.listen((event) {
@@ -99,18 +84,13 @@ class _DraculaPageState extends State<DraculaPage> {
         }
       }
     });
-  }
+  } // FirebaseRealtime Database States
 
   @override
   void initState() {
     super.initState();
-    // getId().then((value) {
-    //   setState(() {
-    //     deviceId = value;
-    //   });
-    // });
     firebaseRealtime();
-  }
+  } // Firebase Realtime Database initialize
 
   @override
   Widget build(BuildContext context) {
@@ -154,13 +134,13 @@ class _DraculaPageState extends State<DraculaPage> {
                       children: [
                         IconButton(
                           icon: Image.asset('assets/images/pnlock.png'),
-                          iconSize: size.width * 0.2,
+                          iconSize: size.width * 0.23,
                           onPressed: () {},
                         ),
                         RotatedBox(
                           quarterTurns: -1,
                           child: Transform.scale(
-                            scale: 1.5,
+                            scale: 1.4,
                             child: CupertinoSwitch(
                               value: _isDoorLockOn,
                               onChanged: (_) {
@@ -181,19 +161,19 @@ class _DraculaPageState extends State<DraculaPage> {
                     ),
                   ],
                 ),
-                // Smoke button
                 Column(
                   children: [
                     Row(
                       children: [
                         IconButton(
-                            icon: Image.asset('assets/images/pngas.png'),
-                            iconSize: size.width * 0.2,
-                            onPressed: () {}),
+                          icon: Image.asset('assets/images/pngas.png'),
+                          iconSize: size.width * 0.23,
+                          onPressed: () {},
+                        ),
                         RotatedBox(
                           quarterTurns: -1,
                           child: Transform.scale(
-                            scale: 1.5,
+                            scale: 1.4,
                             child: CupertinoSwitch(
                               value: _isGasOn,
                               onChanged: (_) {
@@ -216,7 +196,7 @@ class _DraculaPageState extends State<DraculaPage> {
                 ),
               ],
             ),
-            // Motion button
+            // Gas button
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -225,19 +205,20 @@ class _DraculaPageState extends State<DraculaPage> {
                     Row(
                       children: [
                         IconButton(
-                            icon: Image.asset('assets/images/pnfire.png'),
-                            iconSize: size.width * 0.2,
-                            onPressed: () {}),
+                          icon: Image.asset('assets/images/pnfire.png'),
+                          iconSize: size.width * 0.23,
+                          onPressed: () {},
+                        ),
                         RotatedBox(
                           quarterTurns: -1,
                           child: Transform.scale(
-                            scale: 1.5,
+                            scale: 1.4,
                             child: CupertinoSwitch(
                               value: _isFlameOn,
                               onChanged: (_) {
                                 _toggleFlame();
                               },
-                              activeColor: Colors.red,
+                              activeColor: Colors.redAccent[700],
                             ),
                           ),
                         ),
@@ -247,7 +228,8 @@ class _DraculaPageState extends State<DraculaPage> {
                       'Flame',
                       style: TextStyle(
                         fontSize: 20,
-                        color: _isFlameOn ? Colors.red : Colors.white,
+                        color:
+                            _isFlameOn ? Colors.redAccent[700] : Colors.white,
                       ),
                     ),
                   ],
@@ -258,18 +240,14 @@ class _DraculaPageState extends State<DraculaPage> {
                       children: [
                         IconButton(
                           icon: Image.asset('assets/images/pnlight.png'),
-                          iconSize: size.width * 0.2,
+                          iconSize: size.width * 0.23,
                           onPressed: () {},
                         ),
                         RotatedBox(
                           quarterTurns: -1,
                           child: Transform.scale(
-                            scale: 2.2,
-                            child: Switch(
-                              activeThumbImage:
-                                  const AssetImage('assets/images/sun.png'),
-                              inactiveThumbImage:
-                                  const AssetImage('assets/images/moon.png'),
+                            scale: 1.4,
+                            child: CupertinoSwitch(
                               value: _isDoorLightOn,
                               onChanged: (_) {
                                 _toggleDoorLight();
@@ -283,10 +261,10 @@ class _DraculaPageState extends State<DraculaPage> {
                     Text(
                       'Door Light',
                       style: TextStyle(
-                          fontSize: 20,
-                          color: _isDoorLightOn
-                              ? Colors.cyanAccent
-                              : Colors.white),
+                        fontSize: 20,
+                        color:
+                            _isDoorLightOn ? Colors.cyanAccent : Colors.white,
+                      ),
                     ),
                   ],
                 ),
@@ -301,13 +279,13 @@ class _DraculaPageState extends State<DraculaPage> {
                       children: [
                         IconButton(
                           icon: Image.asset('assets/images/pex.png'),
-                          iconSize: size.width * 0.2,
+                          iconSize: size.width * 0.23,
                           onPressed: () {},
                         ),
                         RotatedBox(
                           quarterTurns: -1,
                           child: Transform.scale(
-                            scale: 1.5,
+                            scale: 1.4,
                             child: CupertinoSwitch(
                               value: _isExhaustOn,
                               onChanged: (_) {
@@ -322,8 +300,9 @@ class _DraculaPageState extends State<DraculaPage> {
                     Text(
                       'Exhaust',
                       style: TextStyle(
-                          fontSize: 20,
-                          color: _isExhaustOn ? Colors.purple : Colors.white),
+                        fontSize: 20,
+                        color: _isExhaustOn ? Colors.purple : Colors.white,
+                      ),
                     ),
                   ],
                 ),
@@ -335,13 +314,13 @@ class _DraculaPageState extends State<DraculaPage> {
                           icon: Image.asset('assets/images/pncurrent.png'),
                           color:
                               _isCurrentOn ? Colors.cyanAccent : Colors.white,
-                          iconSize: size.width * 0.2,
+                          iconSize: size.width * 0.23,
                           onPressed: () {},
                         ),
                         RotatedBox(
                           quarterTurns: -1,
                           child: Transform.scale(
-                            scale: 1.5,
+                            scale: 1.4,
                             child: CupertinoSwitch(
                               value: _isCurrentOn,
                               onChanged: (_) {
@@ -356,19 +335,19 @@ class _DraculaPageState extends State<DraculaPage> {
                     Text(
                       'Current',
                       style: TextStyle(
-                          fontSize: 20,
-                          color:
-                              _isCurrentOn ? Colors.deepOrange : Colors.white),
+                        fontSize: 20,
+                        color: _isCurrentOn ? Colors.deepOrange : Colors.white,
+                      ),
                     ),
                   ],
-                )
+                ),
               ],
             ),
             Text(
               _message,
               style: const TextStyle(
-                color: Color.fromARGB(255, 0, 0, 0),
-                fontSize: 20,
+                color: Color.fromARGB(255, 234, 0, 255),
+                fontSize: 28,
               ),
             ),
           ],
