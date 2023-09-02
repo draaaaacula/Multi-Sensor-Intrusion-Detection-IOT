@@ -25,12 +25,22 @@ class _DraculaPageState extends State<DraculaPage> {
     FirebaseDatabase.instance.ref('devices/$path').set(value);
   }
 
-  void _toggleDoorLock() {
-    updateFirebase('Door Lock', !_isDoorLockOn);
+  void _toggleDoorLock() async {
+    // Unlock the door
+    updateFirebase('Door Lock', true);
     setState(() {
-      _isDoorLockOn = !_isDoorLockOn;
+      _isDoorLockOn = true;
     });
-  } // Doorlock
+
+    // Wait for 5 seconds
+    await Future.delayed(const Duration(seconds: 5));
+
+    // Lock the door
+    updateFirebase('Door Lock', false);
+    setState(() {
+      _isDoorLockOn = false;
+    });
+  } // Door Lock
 
   void _toggleGas() {
     updateFirebase('Gas', !_isGasOn);
@@ -153,7 +163,7 @@ class _DraculaPageState extends State<DraculaPage> {
                       ],
                     ),
                     Text(
-                      'Door Lock',
+                      'Unlock Door',
                       style: TextStyle(
                         fontSize: 20,
                         color: _isDoorLockOn ? Colors.tealAccent : Colors.white,
