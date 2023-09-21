@@ -17,7 +17,6 @@ class _DraculaPageState extends State<DraculaPage> {
   late bool _isGasOn = false;
   late bool _isFlameOn = false;
   late bool _isExhaustOn = false;
-  late bool _isDoorLightOn = false;
   late bool _isCurrentOn = false;
   late String _message = '';
 
@@ -32,8 +31,8 @@ class _DraculaPageState extends State<DraculaPage> {
       _isDoorLockOn = true;
     });
 
-    // Wait for 5 seconds
-    await Future.delayed(const Duration(seconds: 10));
+    // Wait for 8 seconds
+    await Future.delayed(const Duration(seconds: 8));
 
     // Lock the door
     updateFirebase('Door Lock', false);
@@ -63,13 +62,6 @@ class _DraculaPageState extends State<DraculaPage> {
     });
   } // Exhaust
 
-  void _toggleDoorLight() {
-    updateFirebase('Door Light', !_isDoorLightOn);
-    setState(() {
-      _isDoorLightOn = !_isDoorLightOn;
-    });
-  } // Doorlight
-
   void _toggleCurrent() {
     updateFirebase('Current', !_isCurrentOn);
     setState(() {
@@ -87,9 +79,8 @@ class _DraculaPageState extends State<DraculaPage> {
             _isGasOn = value['Gas'] ?? false;
             _isFlameOn = value['Flame'] ?? false;
             _isExhaustOn = value['Exhaust'] ?? false;
-            _isDoorLightOn = value['Door Light'] ?? false;
             _isCurrentOn = value['Current'] ?? false;
-            _message = value['Message'] ?? '';
+            _message = value['message'] ?? '';
           });
         }
       }
@@ -125,9 +116,9 @@ class _DraculaPageState extends State<DraculaPage> {
       ),
       body: Container(
         decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 255, 255, 255),
+          color: Color.fromARGB(255, 0, 0, 0),
           image: DecorationImage(
-            image: AssetImage("assets/images/blue.jpg"),
+            image: AssetImage("assets/images/Black_image.jpg"),
             fit: BoxFit.cover,
             opacity: 50,
           ),
@@ -249,45 +240,6 @@ class _DraculaPageState extends State<DraculaPage> {
                     Row(
                       children: [
                         IconButton(
-                          icon: Image.asset('assets/images/pnlight.png'),
-                          iconSize: size.width * 0.23,
-                          onPressed: () {},
-                        ),
-                        RotatedBox(
-                          quarterTurns: -1,
-                          child: Transform.scale(
-                            scale: 1.4,
-                            child: CupertinoSwitch(
-                              value: _isDoorLightOn,
-                              onChanged: (_) {
-                                _toggleDoorLight();
-                              },
-                              activeColor: Colors.cyanAccent,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Text(
-                      'Door Light',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color:
-                            _isDoorLightOn ? Colors.cyanAccent : Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Column(
-                  children: [
-                    Row(
-                      children: [
-                        IconButton(
                           icon: Image.asset('assets/images/pex.png'),
                           iconSize: size.width * 0.23,
                           onPressed: () {},
@@ -301,7 +253,7 @@ class _DraculaPageState extends State<DraculaPage> {
                               onChanged: (_) {
                                 _toggleExhaust();
                               },
-                              activeColor: Colors.purple,
+                              activeColor: const Color(0xFFDAFF64),
                             ),
                           ),
                         ),
@@ -311,11 +263,18 @@ class _DraculaPageState extends State<DraculaPage> {
                       'Exhaust',
                       style: TextStyle(
                         fontSize: 20,
-                        color: _isExhaustOn ? Colors.purple : Colors.white,
+                        color: _isExhaustOn
+                            ? const Color(0xFFDAFF64)
+                            : Colors.white,
                       ),
                     ),
                   ],
                 ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
                 Column(
                   children: [
                     Row(
