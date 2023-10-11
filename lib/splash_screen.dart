@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   Future<void> navigateToHome() async {
     await Future.delayed(
-        const Duration(seconds: 3, milliseconds: 900)); // Delay for 3 seconds
+        const Duration(seconds: 3, milliseconds: 901)); // Delay for 3 seconds
     if (!mounted) return;
     Navigator.pushReplacement(
       context,
