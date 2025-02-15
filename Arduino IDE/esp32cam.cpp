@@ -8,11 +8,11 @@
 #include <SPIFFS.h>
 #include <WiFi.h>
 
-const char* ssid = "Azeem";
-const char* password = "55555555";
+const char* ssid = "xxxxxxxx";
+const char* password = "xxxxxxxxxx";
 
-#define sender_email    "myworkingzone7@gmail.com"
-#define sender_email_password   "hvmemwhqfetfiold"
+#define sender_email    "xxxxxxxxxxxx@gmail.com"
+#define sender_email_password   "xxxxxxxxxx"
 #define SMTP_Server            "smtp.gmail.com"
 #define SMTP_Server_Port        465
 #define email_subject          "ESP32-CAM Image Capture"
