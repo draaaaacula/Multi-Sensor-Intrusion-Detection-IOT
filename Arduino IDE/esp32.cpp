@@ -3,12 +3,12 @@
 #include <WiFi.h>
 #include <FirebaseESP32.h> // Firebase library for ESP32
 // Replace with your Wi-Fi credentials
-const char* ssid = "iPhone 15 Pro Max";
-const char* password = "55555555";
+const char* ssid = "xxxxxxxxxx";
+const char* password = "xxxxxxxx";
 
 // Firebase configuration
-#define FIREBASE_HOST "https://smart-home-security-syst-48432-default-rtdb.firebaseio.com/"
-#define FIREBASE_AUTH "AIzaSyAvTVh6YMJm-Ebq19Mfib9biuG-vBR292U"
+#define FIREBASE_HOST "xxxxxxxxxxxxxxxx"
+#define FIREBASE_AUTH "xxxxxxxxxxxxxxxx"
 
 #define FLAME_PIN 35 
 #define GAS_PIN 25
